@@ -1,0 +1,51 @@
+<div>
+  <!--<app-header title="Organizations"></app-header>-->
+  <mat-card>
+    <mat-card-title>List</mat-card-title>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <div>
+        <mat-table [dataSource]="dataSource" class="cars-table" matSort matSortActive="id" matSortDirection="asc">
+
+          <ng-container cdkColumnDef="id">
+            <mat-header-cell *cdkHeaderCellDef mat-sort-header> ID </mat-header-cell>
+            <mat-cell *cdkCellDef="let row" > {{row.id}}</mat-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="name">
+              <mat-header-cell *cdkHeaderCellDef mat-sort-header> Name</mat-header-cell>
+              <mat-cell *cdkCellDef="let row"> {{row.name}}</mat-cell>
+          </ng-container>
+
+          <ng-container cdkColumnDef="image" >
+            <mat-header-cell *cdkHeaderCellDef> Image</mat-header-cell>
+            <mat-cell *cdkCellDef="let row">
+              <div class="giphy">
+                <img alt="{{row.name}}" class="img-circular" src="{{row.giphyUrl}}">
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="buttons">
+            <mat-header-cell *matHeaderCellDef >
+              <button [routerLink]="['new']" color="primary" mat-icon-button>
+                <mat-icon aria-label="Example icon-button with a heart icon">add</mat-icon>
+              </button>
+            </mat-header-cell>
+            <mat-cell (click)="$event.stopPropagation()" *matCellDef="let row" >
+              <button (click)="removeCar(row.id)" mat-icon-button>
+                <mat-icon>delete</mat-icon>
+              </button>
+            </mat-cell>
+          </ng-container>
+          <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row (click)="editCar(row.id)" *matRowDef="let row; columns: displayedColumns" class="car"
+                   mat-ripple></mat-row>
+        </mat-table>
+        <mat-paginator #paginator [length]="dataSource?.data?.length" [pageIndex]="0" [pageSizeOptions]="[5, 10, 25, 100]"
+                       [pageSize]="5"></mat-paginator>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
